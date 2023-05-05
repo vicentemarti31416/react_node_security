@@ -12,10 +12,10 @@ const app = express();
 connect();
 
 const corsOptions = {
-    origin: '*', 
-    methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS', 
-    allowedHeaders: 'Content-Type, Authorization', 
-    optionsSuccessStatus: 200, 
+    origin: 'http://localhost:3000',
+    methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization, Access-Control-Allow-Origin',
+    optionsSuccessStatus: 200,
 };
 
 app.use(express.json());
