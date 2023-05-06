@@ -182,8 +182,7 @@ const login = async (req, res) => {
         if (!bcrypt.compareSync(req.body.password, userInfo.password)) {
             return res.status(404).json({ message: 'invalid password' });
         }
-        const token = generateSign(userInfo._id, userInfo.email);
-        await console.log(req)
+        const token = generateSign(userInfo._id, userInfo.username, userInfo.email);
         console.log('Successfully logged in')
         return res.status(200).json({ userInfo, token });
     } catch (error) {
