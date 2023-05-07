@@ -110,7 +110,7 @@ const verify = async (req, res) => {
                         .then((result) => {
                             if (result) {
                                 User
-                                    .updateOne({ _id: userId }, { verified: true })
+                                    .updateOne({ _id: userId }, { email_verified: true })
                                     .then((result) => {
                                         UserVerification
                                             .deleteOne({ userId })
@@ -171,9 +171,11 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
+    console.log("Login request = " + JSON.stringify(req.body))
     try {
         const userInfo = await User.findOne({ email: req.body.email })
-        if (!userInfo.verified) {
+        console.log("User = " + userInfo);
+        if (!userInfo.email_verified) {
             return res.status(404).json({ message: 'Email has not been verified' });
         }
         if (!userInfo) {
@@ -182,8 +184,8 @@ const login = async (req, res) => {
         if (!bcrypt.compareSync(req.body.password, userInfo.password)) {
             return res.status(404).json({ message: 'invalid password' });
         }
-        const token = generateSign(userInfo._id, userInfo.username, userInfo.email);
-        console.log('Successfully logged in')
+        const token = generateSign(userInfo._id, userInfo.name, userInfo.email);
+        console.log('Successfully logged in = ' + userInfo)
         return res.status(200).json({ userInfo, token });
     } catch (error) {
         return res.status(500).json(error);
